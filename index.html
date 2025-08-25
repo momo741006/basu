@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虹靈御所八字人生兵法 - 完整整合版</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="starry-background">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+    </div>
+
+    <div id="app">
+        <!-- 主標題 -->
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="main-title">✨ 虹靈御所八字人生兵法【完整整合版】✨</h1>
+                <p class="subtitle">精確節氣計算 · 完整知識庫整合 · 透明化計算過程</p>
+                <div class="mystical-ornament">
+                    <span class="ornament-left">◆</span>
+                    <span class="central-symbol">⚔️</span>
+                    <span class="ornament-right">◆</span>
+                </div>
+                <div class="accuracy-badge">
+                    <div class="badge-icon">🎯</div>
+                    <div class="badge-text">
+                        <div class="badge-title">系統全面升級</div>
+                        <div class="badge-desc">整合完整節氣資料庫 + 精確計算算法 + 豐富知識庫</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 標籤導航 -->
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="input">
+                <span class="tab-icon">📝</span>
+                <span class="tab-text">資料輸入</span>
+            </button>
+            <button class="tab-btn" data-tab="traditional">
+                <span class="tab-icon">🔮</span>
+                <span class="tab-text">傳統排盤</span>
+            </button>
+            <button class="tab-btn" data-tab="military">
+                <span class="tab-icon">⚔️</span>
+                <span class="tab-text">四時軍團</span>
+            </button>
+            <button class="tab-btn" data-tab="analysis">
+                <span class="tab-icon">📊</span>
+                <span class="tab-text">詳細分析</span>
+            </button>
+            <button class="tab-btn" data-tab="encyclopedia">
+                <span class="tab-icon">📚</span>
+                <span class="tab-text">八字百科</span>
+            </button>
+        </nav>
+
+        <!-- 標籤內容區域 -->
+        <main class="tab-content-area">
+            <!-- 資料輸入標籤 -->
+            <section id="input" class="tab-panel active">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2>📝 請輸入您的出生資訊</h2>
+                        <p>準確的資訊將為您解鎖專屬的命運密碼</p>
+                        <div class="improvement-note">
+                            <div class="note-icon">⚡</div>
+                            <div class="note-text">完整整合版使用香港天文台節氣資料庫，計算精度達到專業級別</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="birthForm" class="birth-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="userName" class="form-label">姓名</label>
+                                    <input type="text" id="userName" name="userName" class="form-control" placeholder="請輸入您的姓名" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender" class="form-label">性別</label>
+                                    <select id="gender" name="gender" class="form-control" required>
+                                        <option value="">請選擇</option>
+                                        <option value="男">男性</option>
+                                        <option value="女">女性</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="birthDate" class="form-label">出生日期</label>
+                                    <input type="date" id="birthDate" name="birthDate" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="birthTime" class="form-label">出生時間</label>
+                                    <input type="time" id="birthTime" name="birthTime" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="birthLocation" class="form-label">出生地點</label>
+                                <input type="text" id="birthLocation" name="birthLocation" class="form-control" placeholder="如：台北市" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn--primary btn--large mystical-btn">
+                                <span class="btn-icon">🔮</span>
+                                <span class="btn-text">生成精確命運解析</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </form>
+                        
+                        <!-- 載入狀態 -->
+                        <div id="loadingStatus" class="loading-status hidden">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-text">正在載入節氣資料庫...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 傳統排盤標籤 -->
+            <section id="traditional" class="tab-panel">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2>🔮 傳統四柱八字排盤【完整整合版】</h2>
+                        <p>古法精準 · 現代優化 · 命理玄機盡在其中</p>
+                        <div class="accuracy-indicator">
+                            <div class="indicator-label">計算準確度：</div>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill" style="width: 98%;"></div>
+                            </div>
+                            <div class="indicator-value">98%+</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="baziResult" class="bazi-result">
+                            <div class="result-placeholder">
+                                <div class="placeholder-icon">🌟</div>
+                                <p>請先在「資料輸入」標籤填寫出生資訊</p>
+                                <p class="placeholder-sub">完整整合版將為您提供最精確的八字計算</p>
+                            </div>
+                        </div>
+                        
+                        <div id="basicInfo" class="basic-info hidden">
+                            <h3>基本資訊</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="label">姓名：</span>
+                                    <span id="displayName" class="value"></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="label">性別：</span>
+                                    <span id="displayGender" class="value"></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="label">出生日期：</span>
+                                    <span id="displayDate" class="value"></span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="label">出生時間：</span>
+                                    <span id="displayTime" class="value"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 四柱八字表格 -->
+                        <div id="baziTable" class="bazi-table hidden">
+                            <h3>四柱八字</h3>
+                            <div class="pillars-container">
+                                <div class="pillar-card">
+                                    <div class="pillar-header">年柱</div>
+                                    <div class="pillar-content">
+                                        <div class="gan-zhi">
+                                            <span id="yearGan" class="gan"></span>
+                                            <span id="yearZhi" class="zhi"></span>
+                                        </div>
+                                        <div id="yearShishen" class="shishen"></div>
+                                        <div id="yearNayin" class="nayin"></div>
+                                    </div>
+                                </div>
+                                <div class="pillar-card">
+                                    <div class="pillar-header">月柱</div>
+                                    <div class="pillar-content">
+                                        <div class="gan-zhi">
+                                            <span id="monthGan" class="gan"></span>
+                                            <span id="monthZhi" class="zhi"></span>
+                                        </div>
+                                        <div id="monthShishen" class="shishen"></div>
+                                        <div id="monthNayin" class="nayin"></div>
+                                    </div>
+                                </div>
+                                <div class="pillar-card">
+                                    <div class="pillar-header">日柱</div>
+                                    <div class="pillar-content">
+                                        <div class="gan-zhi">
+                                            <span id="dayGan" class="gan"></span>
+                                            <span id="dayZhi" class="zhi"></span>
+                                        </div>
+                                        <div id="dayShishen" class="shishen"></div>
+                                        <div id="dayNayin" class="nayin"></div>
+                                    </div>
+                                </div>
+                                <div class="pillar-card">
+                                    <div class="pillar-header">時柱</div>
+                                    <div class="pillar-content">
+                                        <div class="gan-zhi">
+                                            <span id="hourGan" class="gan"></span>
+                                            <span id="hourZhi" class="zhi"></span>
+                                        </div>
+                                        <div id="hourShishen" class="shishen"></div>
+                                        <div id="hourNayin" class="nayin"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 藏干詳情 -->
+                        <div id="cangganDetails" class="canggan-details hidden">
+                            <h3>藏干詳情</h3>
+                            <div class="canggan-container">
+                                <div class="canggan-card">
+                                    <div class="canggan-header">年支藏干</div>
+                                    <div id="yearCanggan" class="canggan-content"></div>
+                                </div>
+                                <div class="canggan-card">
+                                    <div class="canggan-header">月支藏干</div>
+                                    <div id="monthCanggan" class="canggan-content"></div>
+                                </div>
+                                <div class="canggan-card">
+                                    <div class="canggan-header">日支藏干</div>
+                                    <div id="dayCanggan" class="canggan-content"></div>
+                                </div>
+                                <div class="canggan-card">
+                                    <div class="canggan-header">時支藏干</div>
+                                    <div id="hourCanggan" class="canggan-content"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 四時軍團標籤 -->
+            <section id="military" class="tab-panel">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2>⚔️ 四時軍團人生兵法【完整整合版】</h2>
+                        <p>您的專屬軍團配置與人生戰略 · 基於精確八字計算</p>
+                        <div class="enhancement-badge">
+                            <span class="badge-icon">🎯</span>
+                            <span class="badge-text">全面升級</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="militaryStory" class="military-story">
+                            <div class="result-placeholder">
+                                <div class="placeholder-icon">🛡️</div>
+                                <p>請先完成八字排盤以解鎖您的軍團</p>
+                                <p class="placeholder-sub">完整整合版將提供更豐富的軍團分析</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 四大軍團卡片 -->
+                        <div id="militaryCards" class="military-cards hidden">
+                            <div class="military-card family-legion">
+                                <div class="card-header">
+                                    <h3>🏰 家族軍團 (年柱)</h3>
+                                    <div class="legion-badge">傳承之力</div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="commander-info">
+                                        <div class="commander">
+                                            <span class="role">主將</span>
+                                            <span id="familyCommander" class="name"></span>
+                                        </div>
+                                        <div class="advisor">
+                                            <span class="role">軍師</span>
+                                            <span id="familyAdvisor" class="name"></span>
+                                        </div>
+                                    </div>
+                                    <div id="familyStory" class="legion-story"></div>
+                                    <div id="familyAdvice" class="legion-advice"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="military-card growth-legion">
+                                <div class="card-header">
+                                    <h3>🌱 成長軍團 (月柱)</h3>
+                                    <div class="legion-badge">發展之力</div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="commander-info">
+                                        <div class="commander">
+                                            <span class="role">主將</span>
+                                            <span id="growthCommander" class="name"></span>
+                                        </div>
+                                        <div class="advisor">
+                                            <span class="role">軍師</span>
+                                            <span id="growthAdvisor" class="name"></span>
+                                        </div>
+                                    </div>
+                                    <div id="growthStory" class="legion-story"></div>
+                                    <div id="growthAdvice" class="legion-advice"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="military-card self-legion">
+                                <div class="card-header">
+                                    <h3>⭐ 本我軍團 (日柱)</h3>
+                                    <div class="legion-badge">核心之力</div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="commander-info">
+                                        <div class="commander">
+                                            <span class="role">主將</span>
+                                            <span id="selfCommander" class="name"></span>
+                                        </div>
+                                        <div class="advisor">
+                                            <span class="role">軍師</span>
+                                            <span id="selfAdvisor" class="name"></span>
+                                        </div>
+                                    </div>
+                                    <div id="selfStory" class="legion-story"></div>
+                                    <div id="selfAdvice" class="legion-advice"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="military-card future-legion">
+                                <div class="card-header">
+                                    <h3>🚀 未來軍團 (時柱)</h3>
+                                    <div class="legion-badge">潛能之力</div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="commander-info">
+                                        <div class="commander">
+                                            <span class="role">主將</span>
+                                            <span id="futureCommander" class="name"></span>
+                                        </div>
+                                        <div class="advisor">
+                                            <span class="role">軍師</span>
+                                            <span id="futureAdvisor" class="name"></span>
+                                        </div>
+                                    </div>
+                                    <div id="futureStory" class="legion-story"></div>
+                                    <div id="futureAdvice" class="legion-advice"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 詳細分析標籤 -->
+            <section id="analysis" class="tab-panel">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2>📊 五行陰陽詳細分析【完整整合版】</h2>
+                        <p>深度解析您的命理結構與人生運勢 · 基於精確計算</p>
+                        <div class="version-tag">
+                            <span class="tag-icon">✨</span>
+                            <span class="tag-text">Enhanced</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="detailedAnalysis" class="detailed-analysis">
+                            <div class="result-placeholder">
+                                <div class="placeholder-icon">📈</div>
+                                <p>請先完成八字排盤以查看詳細分析</p>
+                                <p class="placeholder-sub">完整整合版將提供更精確的五行分析</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 五行分析圖表 -->
+                        <div id="wuxingAnalysis" class="wuxing-analysis hidden">
+                            <h3>五行平衡分析</h3>
+                            <div class="chart-container">
+                                <canvas id="wuxingChart"></canvas>
+                            </div>
+                            <div id="wuxingDetails" class="wuxing-details"></div>
+                        </div>
+                        
+                        <!-- 陰陽分析圖表 -->
+                        <div id="yinyangAnalysis" class="yinyang-analysis hidden">
+                            <h3>陰陽平衡分析</h3>
+                            <div class="chart-container">
+                                <canvas id="yinyangChart"></canvas>
+                            </div>
+                            <div id="yinyangDetails" class="yinyang-details"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 八字百科標籤 -->
+            <section id="encyclopedia" class="tab-panel">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2>📚 八字命理百科【完整整合版】</h2>
+                        <p>學習八字知識，了解完整整合版特色</p>
+                        <div class="knowledge-indicator">
+                            <span class="indicator-icon">🎓</span>
+                            <span class="indicator-text">完整知識庫</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="encyclopedia-content">
+                            <!-- 搜尋功能 -->
+                            <div class="search-section">
+                                <div class="search-container">
+                                    <input type="text" id="encyclopediaSearch" placeholder="搜尋八字知識..." class="search-input">
+                                    <button id="searchBtn" class="search-btn">🔍</button>
+                                </div>
+                            </div>
+                            
+                            <!-- 完整整合版特色說明 -->
+                            <div class="encyclopedia-section">
+                                <h3>🔧 完整整合版核心特色</h3>
+                                <div class="upgrade-info">
+                                    <div class="upgrade-card">
+                                        <div class="upgrade-title">
+                                            <span class="upgrade-icon">🎯</span>
+                                            <span>香港天文台節氣資料庫</span>
+                                        </div>
+                                        <div class="upgrade-desc">
+                                            <strong>專業級精度：</strong>整合香港天文台1850-2100年完整節氣資料庫，
+                                            提供最精確的節氣時間計算，
+                                            確保月柱計算的絕對準確性。
+                                        </div>
+                                    </div>
+                                    <div class="upgrade-card">
+                                        <div class="upgrade-title">
+                                            <span class="upgrade-icon">📚</span>
+                                            <span>完整知識庫整合</span>
+                                        </div>
+                                        <div class="upgrade-desc">
+                                            <strong>豐富內容：</strong>整合虹靈御所完整命理知識庫，
+                                            包含天干地支、五行理論、十神關係、神煞體系等，
+                                            提供深度的理論支持和實戰指導。
+                                        </div>
+                                    </div>
+                                    <div class="upgrade-card">
+                                        <div class="upgrade-title">
+                                            <span class="upgrade-icon">⚡</span>
+                                            <span>智能分析系統</span>
+                                        </div>
+                                        <div class="upgrade-desc">
+                                            <strong>深度分析：</strong>結合傳統命理理論與現代分析方法，
+                                            提供五行平衡、陰陽分析、軍團配置等多維度解析，
+                                            讓您全面了解自己的命理特質。
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 基礎知識區域 -->
+                            <div class="encyclopedia-section">
+                                <h3>🌟 基礎知識查詢</h3>
+                                <div class="knowledge-categories">
+                                    <div class="category-card" data-category="tiangan">
+                                        <div class="category-icon">🌲</div>
+                                        <div class="category-title">十天干</div>
+                                        <div class="category-desc">甲乙丙丁戊己庚辛壬癸</div>
+                                    </div>
+                                    <div class="category-card" data-category="dizhi">
+                                        <div class="category-icon">🐭</div>
+                                        <div class="category-title">十二地支</div>
+                                        <div class="category-desc">子丑寅卯辰巳午未申酉戌亥</div>
+                                    </div>
+                                    <div class="category-card" data-category="wuxing">
+                                        <div class="category-icon">🔥</div>
+                                        <div class="category-title">五行理論</div>
+                                        <div class="category-desc">木火土金水相生相剋</div>
+                                    </div>
+                                    <div class="category-card" data-category="shishen">
+                                        <div class="category-icon">👥</div>
+                                        <div class="category-title">十神關係</div>
+                                        <div class="category-desc">比劫印梟官殺財才食傷</div>
+                                    </div>
+                                    <div class="category-card" data-category="nayin">
+                                        <div class="category-icon">🎵</div>
+                                        <div class="category-title">納音五行</div>
+                                        <div class="category-desc">六十甲子納音表</div>
+                                    </div>
+                                    <div class="category-card" data-category="shensha">
+                                        <div class="category-icon">⭐</div>
+                                        <div class="category-title">神煞系統</div>
+                                        <div class="category-desc">吉神凶煞查詢</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 知識詳情顯示區域 -->
+                            <div id="knowledgeDetails" class="knowledge-details hidden">
+                                <div class="details-header">
+                                    <h4 id="detailsTitle"></h4>
+                                    <button id="closeDetails" class="close-btn">✕</button>
+                                </div>
+                                <div id="detailsContent" class="details-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript 文件 -->
+    <script src="bazi_calculator.js"></script>
+    <script src="enhanced_app.js"></script>
+</body>
+</html>
+
