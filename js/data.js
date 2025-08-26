@@ -28,14 +28,3 @@ const HongLuanMap={"子":"午","丑":"未","寅":"申","卯":"酉","辰":"戌","
 const TianXiMap={"子":"未","丑":"申","寅":"酉","卯":"戌","辰":"亥","巳":"子","午":"丑","未":"寅","申":"卯","酉":"辰","戌":"巳","亥":"午"};
 const YangRenMap={"甲":"卯","乙":"寅","丙":"午","丁":"巳","戊":"午","己":"巳","庚":"酉","辛":"申","壬":"子","癸":"亥"};
 export const ShenShaRules=[
-  {name:"天乙貴人",cat:"貴人",rule:(ctx)=>{const targets=TianYiMap[ctx.dayStem]||[];return ctx.branches.filter(b=>targets.includes(b)).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"桃花",cat:"桃花",rule:(ctx)=>{const g=groupOf(ctx.yearBranch);const target=PeachGroup[g];return ctx.branches.filter(b=>b===target).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"紅鸞",cat:"桃花",rule:(ctx)=>{const t=HongLuanMap[ctx.yearBranch];return ctx.branches.filter(b=>b===t).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"天喜",cat:"桃花",rule:(ctx)=>{const t=TianXiMap[ctx.yearBranch];return ctx.branches.filter(b=>b===t).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"驛馬",cat:"動星",rule:(ctx)=>{const target=YimaMap[groupOf(ctx.dayBranch)];return ctx.branches.filter(b=>b===target).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"華蓋",cat:"吉星",rule:(ctx)=>{const target=HuagaiMap[groupOf(ctx.dayBranch)];return ctx.branches.filter(b=>b===target).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"孤辰",cat:"陰煞",rule:(ctx)=>{const target=GuchenMap[groupOf(ctx.yearBranch)];return ctx.branches.filter(b=>b===target).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"寡宿",cat:"陰煞",rule:(ctx)=>{const target=GuaSuMap[groupOf(ctx.yearBranch)];return ctx.branches.filter(b=>b===target).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"羊刃",cat:"刑煞",rule:(ctx)=>{const target=YangRenMap[ctx.dayStem];return ctx.branches.filter(b=>b===target).map(b=>ctx.pillarsByBranch[b]);}},
-  {name:"咸池(桃花)",cat:"桃花",rule:(ctx)=>{const target=PeachGroup[groupOf(ctx.dayBranch)];return ctx.branches.filter(b=>b===target).map(b=>ctx.pillarsByBranch[b]);}}
-];
