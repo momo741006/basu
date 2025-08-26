@@ -1,0 +1,18 @@
+# Temporary files
+*.tmp
+*_test.html
+/tmp/
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+
+# Node modules (if any future JS tooling is added)
+node_modules/
+dist/
+
+# Screenshots and debug files
+*.png
+*.log
+debug_*
