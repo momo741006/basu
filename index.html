@@ -1,474 +1,127 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>虹靈御所八字人生兵法 - 修正版</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>虹靈御所｜八字人生兵法 v1.6 (Enhanced)</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+<style>
+:root { --bg:#0f1115; --card:#171a21; --text:#e6e9ef; --muted:#a6adbb; --acc:#6bc4ff; --border:#222; --danger:#e53935; --ok:#4caf50; --warn:#ffb300; --el-金:#b0c4de; --el-木:#6fbf73; --el-水:#42a5f5; --el-火:#ff7043; --el-土:#c4a676; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto}
+a{color:#8ad0ff}
+.hdr{padding:20px 16px;border-bottom:1px solid var(--border)}
+.hdr h1{margin:0 0 6px;font-size:22px}
+.hdr .sub{margin:0;color:var(--muted);font-size:14px}
+.wrap{max-width:1180px;margin:24px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin:16px 0;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.grid input,.grid select,.grid-3 input,.grid-3 select{width:100%;padding:10px;border-radius:10px;border:1px solid #2a2f3a;background:#0e1015;color:var(--text);transition:border-color .25s, box-shadow .25s}
+.grid input.valid{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok) inset}
+.grid input.invalid{border-color:var(--danger);box-shadow:0 0 0 1px var(--danger) inset}
+.btn{padding:10px 14px;border-radius:10px;background:var(--acc);border:0;font-weight:600;cursor:pointer}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.small{font-size:12px;color:var(--muted)}
+.report{width:100%;border-collapse:collapse;margin-top:8px}
+.report th,.report td{border:1px solid #2a2f3a;padding:10px;vertical-align:top}
+.report th{background:#0e1015;color:#cfd6e6}
+.pill{display:inline-block;background:#10131a;border:1px solid #2a2f3a;border-radius:999px;padding:.15rem .6rem;margin:0 6px 6px 0;font-size:12px}
+.section-title{margin:.65rem 0 .35rem;color:var(--muted);font-size:13px;letter-spacing:.5px}
+.story{white-space:pre-wrap;font-size:14px;line-height:1.5}
+.badge{display:inline-block;padding:4px 8px;border-radius:8px;background:#1e2430;border:1px solid #2a2f3a;color:#a0d3ff;margin-right:6px;font-size:12px}
+.footer{padding:24px 16px;color:var(--muted);text-align:center;font-size:12px}
+.flex{display:flex;flex-wrap:wrap;gap:6px}
+.el-tag{padding:4px 8px;border-radius:8px;font-size:12px;background:#20252e;border:1px solid #2a2f3a}
+.el-金{background:var(--el-金);color:#142030} .el-木{background:var(--el-木);color:#102016}
+.el-水{background:var(--el-水);color:#0e2234} .el-火{background:var(--el-火);color:#2d1008}
+.el-土{background:var(--el-土);color:#22160a}
+.hl-strong{outline:2px solid #ffd54f}
+.cat-label{font-size:11px;padding:2px 6px;border-radius:6px;background:#253040;color:#9ecbff;margin-right:4px;display:inline-block}
+.cat-貴人{background:#2d3f52}
+.cat-吉星{background:#314d39}
+.cat-桃花{background:#4d2f4d}
+.cat-動星{background:#3d3a23}
+.cat-陰煞{background:#46342c}
+.cat-刑煞{background:#4b2d2d}
+.fade{opacity:.7}
+.note{font-size:11px;color:#8892a2;margin-top:6px}
+@media (max-width:900px){.grid-3,.grid{grid-template-columns:1fr}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <!-- 星空背景 -->
-    <div class="starry-background">
-        <div class="stars"></div>
-        <div class="stars2"></div>
-        <div class="stars3"></div>
+<header class="hdr">
+  <h1>虹靈御所｜八字人生兵法 v1.6</h1>
+  <p class="sub">重構 + 五行力量 + 神煞精緻化 + PDF 增強 + 故事細化 + 自動推時支 + 即時驗證。</p>
+</header>
+<main class="wrap">
+  <section class="card">
+    <h2>👤 基本資料</h2>
+    <div class="grid-3">
+      <label>姓名 <input id="name" placeholder="例：王小明"></label>
+      <label>出生日期 <input id="birthDate" type="date"></label>
+      <label>出生時間 <input id="birthTime" type="time" step="60"></label>
     </div>
-
-    <div id="app">
-        <!-- 主標題 -->
-        <header class="main-header">
-            <div class="header-content">
-                <h1 class="main-title">✨ 虹靈御所八字人生兵法【修正版】✨</h1>
-                <p class="subtitle">精確甲子日計算 · 提升準確度至新高度 · 透明化計算過程</p>
-                <div class="mystical-ornament">
-                    <span class="ornament-left">◆</span>
-                    <span class="central-symbol">⚔️</span>
-                    <span class="ornament-right">◆</span>
-                </div>
-                <div class="accuracy-badge">
-                    <div class="badge-icon">🎯</div>
-                    <div class="badge-text">
-                        <div class="badge-title">計算精度大幅提升</div>
-                        <div class="badge-desc">使用767個真實甲子日數據 + 二分搜索算法</div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- 標籤導航 -->
-        <nav class="tab-navigation">
-            <button class="tab-btn active" data-tab="input">
-                <span class="tab-icon">📝</span>
-                <span class="tab-text">資料輸入</span>
-            </button>
-            <button class="tab-btn" data-tab="traditional">
-                <span class="tab-icon">🔮</span>
-                <span class="tab-text">傳統排盤</span>
-            </button>
-            <button class="tab-btn" data-tab="military">
-                <span class="tab-icon">⚔️</span>
-                <span class="tab-text">四時軍團</span>
-            </button>
-            <button class="tab-btn" data-tab="analysis">
-                <span class="tab-icon">📊</span>
-                <span class="tab-text">詳細分析</span>
-            </button>
-            <button class="tab-btn" data-tab="encyclopedia">
-                <span class="tab-icon">📚</span>
-                <span class="tab-text">八字百科</span>
-            </button>
-        </nav>
-
-        <!-- 標籤內容區域 -->
-        <main class="tab-content-area">
-            <!-- 資料輸入標籤 -->
-            <section id="input" class="tab-panel active">
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h2>📝 請輸入您的出生資訊</h2>
-                        <p>準確的資訊將為您解鎖專屬的命運密碼</p>
-                        <div class="improvement-note">
-                            <div class="note-icon">⚡</div>
-                            <div class="note-text">修正版使用精確甲子日算法，大幅提升計算準確性</div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form id="birthForm" class="birth-form">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="userName" class="form-label">姓名</label>
-                                    <input type="text" id="userName" name="userName" class="form-control" placeholder="請輸入您的姓名" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender" class="form-label">性別</label>
-                                    <select id="gender" name="gender" class="form-control" required>
-                                        <option value="">請選擇</option>
-                                        <option value="男">男性</option>
-                                        <option value="女">女性</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="birthDate" class="form-label">出生日期</label>
-                                    <input type="date" id="birthDate" name="birthDate" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="birthTime" class="form-label">出生時間</label>
-                                    <input type="time" id="birthTime" name="birthTime" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="birthLocation" class="form-label">出生地點</label>
-                                <input type="text" id="birthLocation" name="birthLocation" class="form-control" placeholder="如：台北市" required>
-                            </div>
-                            
-                            <button type="submit" class="btn btn--primary btn--large mystical-btn">
-                                <span class="btn-icon">🔮</span>
-                                <span class="btn-text">生成精確命運解析</span>
-                                <span class="btn-glow"></span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 傳統排盤標籤 -->
-            <section id="traditional" class="tab-panel">
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h2>🔮 傳統四柱八字排盤【修正版】</h2>
-                        <p>古法精準 · 現代優化 · 命理玄機盡在其中</p>
-                        <div class="accuracy-indicator">
-                            <div class="indicator-label">計算準確度：</div>
-                            <div class="indicator-bar">
-                                <div class="indicator-fill" style="width: 95%;"></div>
-                            </div>
-                            <div class="indicator-value">95%+</div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="baziResult" class="bazi-result">
-                            <div class="result-placeholder">
-                                <div class="placeholder-icon">🌟</div>
-                                <p>請先在「資料輸入」標籤填寫出生資訊</p>
-                                <p class="placeholder-sub">修正版將為您提供更精確的八字計算</p>
-                            </div>
-                        </div>
-                        
-                        <div id="basicInfo" class="basic-info hidden">
-                            <h3>基本資訊</h3>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <span class="label">姓名：</span>
-                                    <span id="displayName" class="value"></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="label">性別：</span>
-                                    <span id="displayGender" class="value"></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="label">出生日期：</span>
-                                    <span id="displayDate" class="value"></span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="label">出生時間：</span>
-                                    <span id="displayTime" class="value"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 四時軍團標籤 -->
-            <section id="military" class="tab-panel">
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h2>⚔️ 四時軍團人生兵法【修正版】</h2>
-                        <p>您的專屬軍團配置與人生戰略 · 基於精確八字計算</p>
-                        <div class="enhancement-badge">
-                            <span class="badge-icon">🎯</span>
-                            <span class="badge-text">精確度提升</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="militaryStory" class="military-story">
-                            <div class="result-placeholder">
-                                <div class="placeholder-icon">🛡️</div>
-                                <p>請先完成八字排盤以解鎖您的軍團</p>
-                                <p class="placeholder-sub">修正版將提供更準確的軍團分析</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 詳細分析標籤 -->
-            <section id="analysis" class="tab-panel">
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h2>📊 五行陰陽詳細分析【修正版】</h2>
-                        <p>深度解析您的命理結構與人生運勢 · 基於精確計算</p>
-                        <div class="version-tag">
-                            <span class="tag-icon">✨</span>
-                            <span class="tag-text">Enhanced</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="detailedAnalysis" class="detailed-analysis">
-                            <div class="result-placeholder">
-                                <div class="placeholder-icon">📈</div>
-                                <p>請先完成八字排盤以查看詳細分析</p>
-                                <p class="placeholder-sub">修正版將提供更精確的五行分析</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 八字百科標籤 -->
-            <section id="encyclopedia" class="tab-panel">
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h2>📚 八字命理百科【修正版特色】</h2>
-                        <p>學習八字知識，了解修正版改進內容</p>
-                        <div class="knowledge-indicator">
-                            <span class="indicator-icon">🎓</span>
-                            <span class="indicator-text">知識庫 + 技術說明</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="encyclopedia-content">
-                            <!-- 修正版特色說明 -->
-                            <div class="encyclopedia-section">
-                                <h3>🔧 修正版核心改進</h3>
-                                <div class="upgrade-info">
-                                    <div class="upgrade-card">
-                                        <div class="upgrade-title">
-                                            <span class="upgrade-icon">🎯</span>
-                                            <span>精確甲子日計算</span>
-                                        </div>
-                                        <div class="upgrade-desc">
-                                            <strong>技術升級：</strong>使用1900-2025年間767個真實甲子日數據，
-                                            採用二分搜索算法快速定位最近甲子日，
-                                            大幅提升日柱計算準確性至95%以上。
-                                        </div>
-                                    </div>
-                                    <div class="upgrade-card">
-                                        <div class="upgrade-title">
-                                            <span class="upgrade-icon">🔍</span>
-                                            <span>計算透明度</span>
-                                        </div>
-                                        <div class="upgrade-desc">
-                                            <strong>全新功能：</strong>顯示使用的甲子日基準、天數差等計算細節，
-                                            提供完全透明的計算過程，
-                                            讓您了解每個結果的來源和依據。
-                                        </div>
-                                    </div>
-                                    <div class="upgrade-card">
-                                        <div class="upgrade-title">
-                                            <span class="upgrade-icon">⚡</span>
-                                            <span>性能優化</span>
-                                        </div>
-                                        <div class="upgrade-desc">
-                                            <strong>算法改進：</strong>採用緩存機制和高效搜索算法，
-                                            在保證準確性的同時，
-                                            提供快速流暢的用戶體驗。
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 測試驗證結果 -->
-                            <div class="encyclopedia-section">
-                                <h3>✅ 修正版驗證結果</h3>
-                                <div style="background: rgba(var(--color-success-rgb), 0.1); padding: 20px; border-radius: 12px; border: 1px solid rgba(var(--color-success-rgb), 0.3);">
-                                    <h4 style="color: var(--color-success); margin-bottom: 16px;">📊 測試案例驗證</h4>
-                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px;">
-                                            <strong>1985-10-06</strong><br>
-                                            預期：丙子 ✅<br>
-                                            基準：1985-09-24<br>
-                                            差距：12天
-                                        </div>
-                                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px;">
-                                            <strong>1990-09-27</strong><br>
-                                            預期：癸巳 ✅<br>
-                                            基準：1990-08-29<br>
-                                            差距：29天
-                                        </div>
-                                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px;">
-                                            <strong>2000-01-01</strong><br>
-                                            預期：丙辰 ✅<br>
-                                            基準：1999-11-10<br>
-                                            差距：52天
-                                        </div>
-                                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px;">
-                                            <strong>2024-01-01</strong><br>
-                                            預期：壬戌 ✅<br>
-                                            基準：2023-11-04<br>
-                                            差距：58天
-                                        </div>
-                                    </div>
-                                    <p style="margin-top: 16px; font-weight: bold; color: var(--color-success);">
-                                        ✨ 驗證準確率：100% (4/4測試案例通過)
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="encyclopedia-section">
-                                <h3>🌟 十天干角色系統</h3>
-                                <div class="character-grid">
-                                    <div class="character-card" data-character="甲">
-                                        <div class="character-icon">🌲</div>
-                                        <div class="character-name">森林將軍</div>
-                                        <div class="character-element">木</div>
-                                    </div>
-                                    <div class="character-card" data-character="乙">
-                                        <div class="character-icon">🌸</div>
-                                        <div class="character-name">花草軍師</div>
-                                        <div class="character-element">木</div>
-                                    </div>
-                                    <div class="character-card" data-character="丙">
-                                        <div class="character-icon">☀️</div>
-                                        <div class="character-name">太陽統帥</div>
-                                        <div class="character-element">火</div>
-                                    </div>
-                                    <div class="character-card" data-character="丁">
-                                        <div class="character-icon">🕯️</div>
-                                        <div class="character-name">燭光智者</div>
-                                        <div class="character-element">火</div>
-                                    </div>
-                                    <div class="character-card" data-character="戊">
-                                        <div class="character-icon">🏔️</div>
-                                        <div class="character-name">大地守護</div>
-                                        <div class="character-element">土</div>
-                                    </div>
-                                    <div class="character-card" data-character="己">
-                                        <div class="character-icon">🌾</div>
-                                        <div class="character-name">田園培育</div>
-                                        <div class="character-element">土</div>
-                                    </div>
-                                    <div class="character-card" data-character="庚">
-                                        <div class="character-icon">⚔️</div>
-                                        <div class="character-name">鋼鐵戰士</div>
-                                        <div class="character-element">金</div>
-                                    </div>
-                                    <div class="character-card" data-character="辛">
-                                        <div class="character-icon">💎</div>
-                                        <div class="character-name">珠寶鑑賞</div>
-                                        <div class="character-element">金</div>
-                                    </div>
-                                    <div class="character-card" data-character="壬">
-                                        <div class="character-icon">🌊</div>
-                                        <div class="character-name">江海探索</div>
-                                        <div class="character-element">水</div>
-                                    </div>
-                                    <div class="character-card" data-character="癸">
-                                        <div class="character-icon">💧</div>
-                                        <div class="character-name">雨露療癒</div>
-                                        <div class="character-element">水</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="encyclopedia-section">
-                                <h3>🐉 十二地支守護神</h3>
-                                <div class="guardian-grid">
-                                    <div class="guardian-card" data-guardian="子">
-                                        <div class="guardian-name">暗夜統領</div>
-                                        <div class="guardian-traits">機智靈活，善於變通</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="丑">
-                                        <div class="guardian-name">黎明守護</div>
-                                        <div class="guardian-traits">勤勞踏實，包容力強</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="寅">
-                                        <div class="guardian-name">破曉猛虎</div>
-                                        <div class="guardian-traits">勇猛果敢，開創力強</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="卯">
-                                        <div class="guardian-name">晨光精靈</div>
-                                        <div class="guardian-traits">溫和謹慎，藝術天分</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="辰">
-                                        <div class="guardian-name">龍騰九天</div>
-                                        <div class="guardian-traits">變化多端，智慧深沉</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="巳">
-                                        <div class="guardian-name">蛇舞智者</div>
-                                        <div class="guardian-traits">智慧深沉，神秘莫測</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="午">
-                                        <div class="guardian-name">烈日戰神</div>
-                                        <div class="guardian-traits">熱情奔放，積極進取</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="未">
-                                        <div class="guardian-name">午後賢者</div>
-                                        <div class="guardian-traits">溫順善良，重視和諧</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="申">
-                                        <div class="guardian-name">猴王機智</div>
-                                        <div class="guardian-traits">聰明活潑，善於變化</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="酉">
-                                        <div class="guardian-name">雞鳴英雄</div>
-                                        <div class="guardian-traits">精明能幹，注重細節</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="戌">
-                                        <div class="guardian-name">戰犬統領</div>
-                                        <div class="guardian-traits">忠誠可靠，責任心強</div>
-                                    </div>
-                                    <div class="guardian-card" data-guardian="亥">
-                                        <div class="guardian-name">豬圓智慧</div>
-                                        <div class="guardian-traits">純真善良，包容寬厚</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="encyclopedia-section">
-                                <h3>⚡ 五行相生相剋</h3>
-                                <div class="wuxing-diagram">
-                                    <div class="wuxing-circle">
-                                        <div class="element wood" data-element="木">木</div>
-                                        <div class="element fire" data-element="火">火</div>
-                                        <div class="element earth" data-element="土">土</div>
-                                        <div class="element metal" data-element="金">金</div>
-                                        <div class="element water" data-element="水">水</div>
-                                    </div>
-                                    <div class="wuxing-explanation">
-                                        <p><strong>相生：</strong>木生火 → 火生土 → 土生金 → 金生水 → 水生木</p>
-                                        <p><strong>相剋：</strong>木剋土 → 土剋水 → 水剋火 → 火剋金 → 金剋木</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- 載入動畫 -->
-        <div id="loadingOverlay" class="loading-overlay hidden">
-            <div class="loading-content">
-                <div class="mystical-loader">
-                    <div class="loader-ring"></div>
-                    <div class="loader-ring"></div>
-                    <div class="loader-ring"></div>
-                    <div class="loader-symbol">✨</div>
-                </div>
-                <div class="loading-text">
-                    <p id="loadingMessage">正在使用修正算法解析您的命運密碼...</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <div class="loading-features">
-                        <div class="feature-item">🎯 精確甲子日定位</div>
-                        <div class="feature-item">⚡ 二分搜索算法</div>
-                        <div class="feature-item">🔍 透明計算過程</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 角色詳情模態框 -->
-        <div id="characterModal" class="modal hidden">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="modalCharacterName"></h3>
-                    <button class="modal-close" onclick="closeCharacterModal()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div id="characterDetails" class="character-details"></div>
-                </div>
-            </div>
-        </div>
+    <div class="grid">
+      <label>時區
+        <select id="tz">
+          <option value="UTC+08:00" selected>UTC+08:00（台灣/香港/新加坡）</option>
+          <option value="UTC+09:00">UTC+09:00（日本/首爾）</option>
+          <option value="UTC+07:00">UTC+07:00（東南亞部分）</option>
+          <option value="UTC+00:00">UTC+00:00（倫敦）</option>
+          <option value="UTC-05:00">UTC-05:00（紐約）</option>
+          <option value="UTC-08:00">UTC-08:00（洛杉磯）</option>
+        </select>
+      </label>
+      <label>子時劃日法
+        <select id="ziCut">
+          <option value="midnight" selected>子初不換日（00:00 換日）</option>
+          <option value="23cut">夜子換日（23:00 換日）</option>
+        </select>
+      </label>
+      <label>年柱干支 <input id="gzY" placeholder="例：甲子" maxlength="2"></label>
+      <label>月柱干支 <input id="gzM" placeholder="例：丙寅" maxlength="2"></label>
+      <label>日柱干支 <input id="gzD" placeholder="例：辛卯" maxlength="2"></label>
+      <label>時支
+        <select id="hourBranch">
+          <option value="">（自動推或選）</option>
+          <option value="子">子（23:00–00:59）</option><option value="丑">丑（01:00–02:59）</option>
+          <option value="寅">寅</option><option value="卯">卯</option><option value="辰">辰</option><option value="巳">巳</option>
+          <option value="午">午</option><option value="未">未</option><option value="申">申</option><option value="酉">酉</option>
+          <option value="戌">戌</option><option value="亥">亥</option>
+        </select>
+      </label>
     </div>
-
-    <script src="app.js"></script>
+    <div class="actions">
+      <button class="btn" id="btnOpenCal" type="button">開萬年曆</button>
+      <button class="btn" id="btnGuessHB" type="button">推時支</button>
+      <button class="btn" id="btnPaste" type="button">貼上三柱</button>
+      <button class="btn" id="btnCalc" type="button">計算</button>
+      <button class="btn" id="btnPdf" type="button">下載 PDF</button>
+    </div>
+    <div class="small">年/月/日柱請以萬年曆為準；即時驗證：綠=合法干支，紅=格式錯誤；未選時支但填時間會自動推斷。</div>
+  </section>
+  <section class="card">
+    <h2>📄 報告（四時軍團 × 十神 × 納音 × 五行 × 神煞分類）</h2>
+    <div id="fiveElPanel" style="display:none;margin-bottom:12px">
+      <div class="section-title">五行力量（天干=1, 納音=0.5）</div>
+      <div id="fiveElTags" class="flex"></div>
+      <div id="fiveElComment" class="note"></div>
+    </div>
+    <table class="report" id="report" style="display:none">
+      <thead>
+        <tr><th style="width:120px">軍團</th><th>綜合欄</th></tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2>⚙️ 檢查 / Debug</h2>
+    <div id="debug"></div>
+  </section>
+</main>
+<footer class="footer">© 虹靈御所 Hong Ling Sanctuary — v1.6 Enhanced</footer>
+<script type="module" src="./js/ui.js"></script>
 </body>
 </html>
